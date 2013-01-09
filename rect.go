@@ -4,69 +4,63 @@ import (
     "github.com/AllenDang/w32"
 )
 
-type Rect struct {
-    rect w32.RECT
-}
+type Rect w32.RECT
 
 func NewEmptyRect() *Rect {
     var newRect Rect
-    w32.SetRectEmpty(&newRect.rect)
+    w32.SetRectEmpty((*w32.RECT)(&newRect))
 
     return &newRect
 }
 
 func NewRect(left, top, right, bottom int) *Rect {
-    var newRect Rect
-    w32.SetRectEmpty(&newRect.rect)
-    newRect.Set(left, top, right, bottom)
-
-    return &newRect
+    return &Rect{Left: int32(left), Top: int32(top), Right: int32(right), Bottom: int32(bottom)}
 }
 
 func (this *Rect) Data() (left, top, right, bottom int) {
-    left = int(this.rect.Left)
-    top = int(this.rect.Top)
-    right = int(this.rect.Right)
-    bottom = int(this.rect.Bottom)
+    left = int(this.Left)
+    top = int(this.Top)
+    right = int(this.Right)
+    bottom = int(this.Bottom)
     return
 }
 
-func (this *Rect) GetW32Rect() *w32.RECT {
-    return &this.rect
+func (r *Rect) GetW32Rect() *w32.RECT {
+    return (*w32.RECT)(r)
 }
 
-func (this *Rect) Set(left, top, right, bottom int) {
-    w32.SetRect(&this.rect, left, top, right, bottom)
+func (r *Rect) Set(left, top, right, bottom int) {
+    w32.SetRect((*w32.RECT)(r), left, top, right, bottom)
 }
 
-func (this *Rect) IsEqual(rect *Rect) bool {
-    return w32.EqualRect(&this.rect, &rect.rect)
+func (r *Rect) IsEqual(rect *Rect) bool {
+    return w32.EqualRect((*w32.RECT)(r), (*w32.RECT)(rect))
 }
 
-func (this *Rect) Inflate(x, y int) {
-    w32.InflateRect(&this.rect, x, y)
+func (r *Rect) Inflate(x, y int) {
+    w32.InflateRect((*w32.RECT)(r), x, y)
 }
 
-func (this *Rect) Intersect(src *Rect) {
-    w32.IntersectRect(&this.rect, &this.rect, &src.rect)
+func (r *Rect) Intersect(src *Rect) {
+    w32.IntersectRect((*w32.RECT)(r), (*w32.RECT)(r), (*w32.RECT)(src))
 }
 
-func (this *Rect) IsEmpty() bool {
-    return w32.IsRectEmpty(&this.rect)
+func (r *Rect) IsEmpty() bool {
+    return w32.IsRectEmpty((*w32.RECT)(r))
 }
 
-func (this *Rect) Offset(x, y int) {
-    w32.OffsetRect(&this.rect, x, y)
+func (r *Rect) Offset(x, y int) {
+    w32.OffsetRect((*w32.RECT)(r), x, y)
 }
 
-func (this *Rect) IsPointIn(x, y int) bool {
-    return w32.PtInRect(&this.rect, x, y)
+func (r *Rect) IsPointIn(x, y int) bool {
+    return w32.PtInRect((*w32.RECT)(r), x, y)
 }
 
-func (this *Rect) Substract(src *Rect) {
-    w32.SubtractRect(&this.rect, &this.rect, &src.rect)
+func (r *Rect) Substract(src *Rect) {
+    w32.SubtractRect((*w32.RECT)(r), (*w32.RECT)(r), (*w32.RECT)(src))
 }
 
-func (this *Rect) Union(src *Rect) {
-    w32.UnionRect(&this.rect, &this.rect, &src.rect)
+func (r *Rect) Union(src *Rect) {
+    w32.UnionRect((*w32.RECT)(r), (*w32.RECT)(r), (*w32.RECT)(src))
 }

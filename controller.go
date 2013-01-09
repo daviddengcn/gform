@@ -18,6 +18,7 @@ type Controller interface {
     Visible() bool
     Bounds() *Rect
     ClientRect() *Rect
+    // data: *PaintEventData
     SetCaption(s string)
     SetEnabled(b bool)
     SetPos(x, y int)

@@ -119,7 +119,7 @@ func (this *ControlBase) Visible() bool {
 func (this *ControlBase) Bounds() *Rect {
     rect := w32.GetWindowRect(this.hwnd)
     if this.isForm {
-        return &Rect{*rect}
+        return (*Rect)(rect)
     }
 
     return ScreenToClientRect(this.hwnd, rect)
@@ -128,6 +128,7 @@ func (this *ControlBase) Bounds() *Rect {
 func (this *ControlBase) ClientRect() *Rect {
     rect := w32.GetClientRect(this.hwnd)
     return ScreenToClientRect(this.hwnd, rect)
+//    return (*Rect)(rect)
 }
 
 func (this *ControlBase) Show() {
