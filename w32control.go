@@ -17,7 +17,7 @@ func (this *W32Control) init(className string, parent Controller, exstyle, style
         panic("cannot create window for " + className)
     }
     this.isMouseLeft = true
-    this.originalWndProc = w32.SetWindowLongPtr(this.hwnd, w32.GWLP_WNDPROC, GeneralWndprocCallBack)
+    this.originalWndProc = uintptr(w32.SetWindowLong(this.hwnd, w32.GWLP_WNDPROC, uint32(GeneralWndprocCallBack)))
     this.ControlBase.init(parent)
 }
 
@@ -50,5 +50,5 @@ func (this *W32Control) WndProc(msg uint, wparam, lparam uintptr) uintptr {
         this.onMouseLeave.Fire(NewEventArg(this, nil))
         this.isMouseLeft = true
     }
-    return w32.CallWindowProc(this.originalWndProc, this.hwnd, msg, wparam, lparam)
+    return w32.CallWindowProc(this.originalWndProc, this.hwnd, uint32(msg), wparam, lparam)
 }

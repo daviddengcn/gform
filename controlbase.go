@@ -107,7 +107,7 @@ func (this *ControlBase) Pos() (x, y int) {
     x = int(rect.Left)
     y = int(rect.Top)
     if !this.isForm && this.parent != nil {
-        x, y = w32.ScreenToClient(this.parent.Handle(), x, y)
+        x, y, _ = w32.ScreenToClient(this.parent.Handle(), x, y)
     }
     return
 }

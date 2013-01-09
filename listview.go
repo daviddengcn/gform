@@ -41,7 +41,7 @@ func (this *ListView) init(parent Controller) {
 // Changes the state of an item in a list-view control. Refer LVM_SETITEMSTATE message.
 func (this *ListView) setItemState(i int, state, mask uint) {
     var item w32.LVITEM
-    item.State, item.StateMask = state, mask
+    item.State, item.StateMask = uint32(state), uint32(mask)
 
     w32.SendMessage(this.hwnd, w32.LVM_SETITEMSTATE, uintptr(i), uintptr(unsafe.Pointer(&item)))
 }
@@ -99,7 +99,7 @@ func (this *ListView) InsertColumn(caption string, width int, iCol int) {
     lc.Mask = w32.LVCF_TEXT
     if width != 0 {
         lc.Mask = lc.Mask | w32.LVCF_WIDTH
-        lc.Cx = width
+        lc.Cx = int32(width)
     }
     lc.PszText = syscall.StringToUTF16Ptr(caption)
 
@@ -111,13 +111,13 @@ func (this *ListView) AddItem(text ...string) {
         var li w32.LVITEM
         li.Mask = w32.LVIF_TEXT
         li.PszText = syscall.StringToUTF16Ptr(text[0])
-        li.IItem = this.ItemCount()
+        li.IItem = int32(this.ItemCount())
 
         this.InsertLvItem(&li)
 
         for i := 1; i < len(text); i++ {
             li.PszText = syscall.StringToUTF16Ptr(text[i])
-            li.ISubItem = i
+            li.ISubItem = int32(i)
 
             this.SetLvItem(&li)
         }
@@ -147,7 +147,7 @@ func (this *ListView) Item(item *w32.LVITEM) bool {
 func (this *ListView) ItemAtIndex(i int) *w32.LVITEM {
     var item w32.LVITEM
     item.Mask = w32.LVIF_PARAM | w32.LVIF_TEXT
-    item.IItem = i
+    item.IItem = int32(i)
 
     this.Item(&item)
     return &item
@@ -165,8 +165,8 @@ func (this *ListView) SelectedItems(mask uint) []*w32.LVITEM {
         }
 
         var item w32.LVITEM
-        item.Mask = mask
-        item.IItem = i
+        item.Mask = uint32(mask)
+        item.IItem = int32(i)
         if this.Item(&item) {
             items = append(items, &item)
         }

@@ -44,5 +44,5 @@ func (this *CustomControl) WndProc(msg uint, wparam, lparam uintptr) uintptr {
         this.onMouseLeave.Fire(NewEventArg(sender, nil))
         this.isMouseLeft = true
     }
-    return w32.DefWindowProc(this.hwnd, msg, wparam, lparam)
+    return w32.DefWindowProc(this.hwnd, uint32(msg), wparam, lparam)
 }

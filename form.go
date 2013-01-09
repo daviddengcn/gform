@@ -91,5 +91,5 @@ func (this *Form) WndProc(msg uint, wparam, lparam uintptr) uintptr {
         w32.PostQuitMessage(0)
     }
 
-    return w32.DefWindowProc(this.hwnd, msg, wparam, lparam)
+    return w32.DefWindowProc(this.hwnd, uint32(msg), wparam, lparam)
 }

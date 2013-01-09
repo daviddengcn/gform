@@ -6,8 +6,8 @@ import (
 )
 
 func genPoint(p uintptr) (x, y int) {
-    x = int(w32.LOWORD(uint(p)))
-    y = int(w32.HIWORD(uint(p)))
+    x = int(w32.LOWORD(uint32(p)))
+    y = int(w32.HIWORD(uint32(p)))
     return
 }
 
@@ -106,5 +106,5 @@ func generalWndProc(hwnd w32.HWND, msg uint, wparam, lparam uintptr) uintptr {
         return ret
     }
 
-    return w32.DefWindowProc(hwnd, msg, wparam, lparam)
+    return w32.DefWindowProc(hwnd, uint32(msg), wparam, lparam)
 }

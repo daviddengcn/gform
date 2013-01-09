@@ -24,10 +24,10 @@ func NewRect(left, top, right, bottom int) *Rect {
 }
 
 func (this *Rect) Data() (left, top, right, bottom int) {
-    left = this.rect.Left
-    top = this.rect.Top
-    right = this.rect.Right
-    bottom = this.rect.Bottom
+    left = int(this.rect.Left)
+    top = int(this.rect.Top)
+    right = int(this.rect.Right)
+    bottom = int(this.rect.Bottom)
     return
 }
 

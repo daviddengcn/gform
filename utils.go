@@ -9,7 +9,7 @@ import (
 
 func internalTrackMouseEvent(hwnd w32.HWND) {
     var tme w32.TRACKMOUSEEVENT
-    tme.CbSize = uint(unsafe.Sizeof(tme))
+    tme.CbSize = uint32(unsafe.Sizeof(tme))
     tme.DwFlags = w32.TME_LEAVE
     tme.HwndTrack = hwnd
     tme.DwHoverTime = w32.HOVER_DEFAULT
@@ -45,7 +45,7 @@ func CreateWindow(className string, parent Controller, exStyle, style uint) w32.
     instance := GetAppInstance()
     var parentHwnd w32.HWND
     if parent != nil {
-        parentHwnd = parent.Handle()
+        parentHwnd = w32.HWND(parent.Handle())
     }
     var hwnd w32.HWND
     hwnd = w32.CreateWindowEx(
@@ -75,7 +75,7 @@ func RegisterClass(className string, wndproc uintptr) {
     icon := w32.LoadIcon(instance, w32.MakeIntResource(w32.IDI_APPLICATION))
 
     var wc w32.WNDCLASSEX
-    wc.Size = uint(unsafe.Sizeof(wc))
+    wc.Size = uint32(unsafe.Sizeof(wc))
     wc.Style = w32.CS_HREDRAW | w32.CS_VREDRAW
     wc.WndProc = wndproc
     wc.Instance = instance
@@ -107,9 +107,7 @@ func RegClassOnlyOnce(className string) {
 }
 
 func ScreenToClientRect(hwnd w32.HWND, rect *w32.RECT) *Rect {
-    l, t, r, b := rect.Left, rect.Top, rect.Right, rect.Bottom
-
-    l, t = w32.ScreenToClient(hwnd, l, t)
-    r, b = w32.ScreenToClient(hwnd, r, b)
+    l, t, _ := w32.ScreenToClient(hwnd, int(rect.Left), int(rect.Top))
+    r, b, _ := w32.ScreenToClient(hwnd, int(rect.Right), int(rect.Bottom))
     return NewRect(l, t, r, b)
 }

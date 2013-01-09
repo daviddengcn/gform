@@ -24,7 +24,7 @@ func (this *ToolTip) init(parent Controller) {
 
 func (this *ToolTip) AddTool(tool Controller, tip string) bool {
     var ti w32.TOOLINFO
-    ti.CbSize = uint(unsafe.Sizeof(ti))
+    ti.CbSize = uint32(unsafe.Sizeof(ti))
     if tool.Parent() != nil {
         ti.Hwnd = tool.Parent().Handle()
     }

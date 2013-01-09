@@ -130,7 +130,7 @@ func (this *Dialog) WndProc(msg uint, wparam, lparam uintptr) uintptr {
         gDialogWaiting = nil
         this.onLoad.Fire(NewEventArg(this, nil))
     case w32.WM_COMMAND:
-        switch w32.LOWORD(uint(wparam)) {
+        switch w32.LOWORD(uint32(wparam)) {
         case w32.IDOK:
             this.onOK.Fire(NewEventArg(this, nil))
             return w32.TRUE

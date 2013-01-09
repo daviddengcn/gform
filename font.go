@@ -50,7 +50,7 @@ func NewFont(family string, pointSize int, style byte) *Font {
 func (this *Font) createForDPI(dpi int) w32.HFONT {
     var lf w32.LOGFONT
 
-    lf.Height = -w32.MulDiv(this.pointSize, dpi, 72)
+    lf.Height = int32(-w32.MulDiv(this.pointSize, dpi, 72))
     if this.style&FontBold > 0 {
         lf.Weight = w32.FW_BOLD
     } else {

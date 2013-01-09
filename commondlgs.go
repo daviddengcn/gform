@@ -8,7 +8,7 @@ import (
 
 func genOFN(parent Controller, title, filter string, filterIndex uint, initialDir string, buf []uint16) *w32.OPENFILENAME {
     var ofn w32.OPENFILENAME
-    ofn.StructSize = uint(unsafe.Sizeof(ofn))
+    ofn.StructSize = uint32(unsafe.Sizeof(ofn))
     ofn.Owner = parent.Handle()
 
     if filter != "" {
@@ -21,11 +21,11 @@ func genOFN(parent Controller, title, filter string, filterIndex uint, initialDi
             }
         }
         ofn.Filter = &filterBuf[0]
-        ofn.FilterIndex = uint(filterIndex)
+        ofn.FilterIndex = uint32(filterIndex)
     }
 
     ofn.File = &buf[0]
-    ofn.MaxFile = uint(len(buf))
+    ofn.MaxFile = uint32(len(buf))
 
     if initialDir != "" {
         ofn.InitialDir = syscall.StringToUTF16Ptr(initialDir)

@@ -62,7 +62,7 @@ func (this *Canvas) DrawStretchedBitmap(bmp *Bitmap, rect *Rect) {
     w, h := bmp.Size()
 
     rc := rect.GetW32Rect()
-    w32.StretchBlt(this.hdc, rc.Left, rc.Top, rc.Right, rc.Bottom, cdc, 0, 0, w, h, w32.SRCCOPY)
+    w32.StretchBlt(this.hdc, int(rc.Left), int(rc.Top), int(rc.Right), int(rc.Bottom), cdc, 0, 0, w, h, w32.SRCCOPY)
 }
 
 func (this *Canvas) DrawIcon(ico *Icon, x, y int) bool {
@@ -78,7 +78,7 @@ func (this *Canvas) DrawRect(rect *Rect, pen *Pen, brush *Brush) {
     previousBrush := w32.SelectObject(this.hdc, w32.HGDIOBJ(brush.GetHBRUSH()))
     defer w32.SelectObject(this.hdc, previousBrush)
 
-    w32.Rectangle(this.hdc, w32Rect.Left, w32Rect.Top, w32Rect.Right, w32Rect.Bottom)
+    w32.Rectangle(this.hdc, int(w32Rect.Left), int(w32Rect.Top), int(w32Rect.Right), int(w32Rect.Bottom))
 }
 
 func (this *Canvas) FillRect(rect *Rect, brush *Brush) {
